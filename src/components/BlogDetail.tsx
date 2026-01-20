@@ -90,7 +90,7 @@ export default function BlogDetail({ id }: { id: number | string }) {
       </Button>
 
       {/* Key Information Panel */}
-      <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-200">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-6 border-y border-gray-200">
         <div>
           <p className="text-xs uppercase text-gray-500 tracking-wide mb-1">
             Category
@@ -99,7 +99,7 @@ export default function BlogDetail({ id }: { id: number | string }) {
             {data.category?.join(" & ") || "General"}
           </p>
         </div>
-        <div className="border-l border-gray-200 pl-4">
+        <div className="border-t sm:border-t-0 sm:border-l border-gray-200 sm:pl-4 pt-4 sm:pt-0">
           <p className="text-xs uppercase text-gray-500 tracking-wide mb-1">
             Read Time
           </p>
@@ -107,7 +107,7 @@ export default function BlogDetail({ id }: { id: number | string }) {
             {readTime} Mins
           </p>
         </div>
-        <div className="border-l border-gray-200 pl-4">
+        <div className="border-t sm:border-t-0 sm:border-l border-gray-200 sm:pl-4 pt-4 sm:pt-0">
           <p className="text-xs uppercase text-gray-500 tracking-wide mb-1">
             Date
           </p>
@@ -164,7 +164,7 @@ export default function BlogDetail({ id }: { id: number | string }) {
       </div>
 
       {/* Author Information and Interaction */}
-      <div className="flex items-center justify-between pt-8 border-t border-gray-200">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-gray-200">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">
             {data.title.charAt(0)}

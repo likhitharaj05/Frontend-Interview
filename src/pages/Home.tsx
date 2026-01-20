@@ -25,8 +25,29 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Loading blogs...</p>
+      <div className="bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+            {/* Left Panel Skeleton */}
+            <aside className="lg:col-span-1 space-y-4">
+              <div className="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="border rounded-xl p-4 space-y-3 animate-pulse">
+                  <div className="h-3 bg-gray-200 rounded w-20"></div>
+                  <div className="h-5 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              ))}
+            </aside>
+            {/* Right Panel Skeleton */}
+            <main className="lg:col-span-2 bg-white rounded-xl lg:rounded-2xl border p-6 lg:p-10 space-y-6 animate-pulse">
+              <div className="w-full h-64 bg-gray-200 rounded"></div>
+              <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            </main>
+          </div>
+        </div>
       </div>
     );
   }
@@ -56,11 +77,11 @@ export default function Home() {
     <div className="bg-gray-50">
      
 
-      <div className="max-w-7xl mx-auto grid grid-cols-3 gap-10 px-8 py-10 min-h-[calc(100vh-96px)]">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 px-4 lg:px-8 py-6 lg:py-10 min-h-[calc(100vh-96px)]">
 
         
         {/* LEFT PANEL */}
-        <aside className="space-y-6 max-h-[calc(100vh-140px)] overflow-y-auto pr-2">
+        <aside className="lg:col-span-1 space-y-4 lg:space-y-6 max-h-[calc(100vh-140px)] overflow-y-auto lg:pr-2">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-xl font-semibold">
               Latest Articles
@@ -89,7 +110,7 @@ export default function Home() {
         </aside>
 
         {/* RIGHT PANEL */}
-        <main className="col-span-2 bg-white rounded-2xl border overflow-hidden max-h-[calc(100vh-140px)] overflow-y-auto">
+        <main className="lg:col-span-2 bg-white rounded-xl lg:rounded-2xl border overflow-hidden max-h-[calc(100vh-140px)] overflow-y-auto">
           {selectedId ? (
             <BlogDetail id={selectedId} />
           ) : (

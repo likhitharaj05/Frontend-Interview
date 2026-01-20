@@ -17,7 +17,7 @@ export default function Header() {
           </div>
   
           {/* CENTER: NAV */}
-          <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600">
+          <nav className="hidden lg:flex items-center gap-8 text-sm text-gray-600">
             <a className="hover:text-indigo-600 cursor-pointer transition-colors">Tools</a>
             <a className="hover:text-indigo-600 cursor-pointer transition-colors">Practice</a>
             <a className="hover:text-indigo-600 cursor-pointer transition-colors">Events</a>
