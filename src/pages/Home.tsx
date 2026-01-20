@@ -1,29 +1,111 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useBlogs } from "../hooks/useBlogs";
 import BlogCard from "../components/BlogCard";
 import BlogDetail from "../components/BlogDetail";
+import BlogForm from "../components/BlogForm";
+import { Button } from "../components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function Home() {
-  const { data, isLoading } = useBlogs();
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const { data, isLoading, error } = useBlogs();
+  const [selectedId, setSelectedId] = useState<number | string | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
-  if (isLoading) return <p>Loading blogs...</p>;
+  // Set selectedId to first blog when data loads
+  useEffect(() => {
+    if (data && data.length > 0 && selectedId === null) {
+      setSelectedId(data[0].id);
+    }
+  }, [data, selectedId]);
+
+  // Handle new blog creation - select the newly created blog
+  const handleBlogCreated = (newBlogId: number | string) => {
+    setSelectedId(newBlogId);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading blogs...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 text-lg font-medium mb-2">Error loading blogs</p>
+          <p className="text-gray-500">Please check if the JSON Server is running on port 3001</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    return (
+      <div className="bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-8 py-10">
+          <p className="text-gray-500 text-center py-12">No blogs available. Create your first blog!</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="grid grid-cols-3 h-screen">
-      <div className="p-4 space-y-3">
-        {data?.map(blog => (
-          <BlogCard
-            key={blog.id}
-            blog={blog}
-            onClick={() => setSelectedId(blog.id)}
-          />
-        ))}
+    <div className="bg-gray-50">
+     
+
+      <div className="max-w-7xl mx-auto grid grid-cols-3 gap-10 px-8 py-10 min-h-[calc(100vh-96px)]">
+
+        
+        {/* LEFT PANEL */}
+        <aside className="space-y-6 max-h-[calc(100vh-140px)] overflow-y-auto pr-2">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-xl font-semibold">
+              Latest Articles
+            </h2>
+            <Button
+              size="sm"
+              onClick={() => setIsFormOpen(true)}
+              className="h-8 w-8 p-0"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {data && data.length > 0 ? (
+            data.map((blog: any) => (
+              <BlogCard
+                key={blog.id}
+                blog={blog}
+                active={selectedId !== null && String(blog.id) === String(selectedId)}
+                onClick={() => setSelectedId(blog.id)}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center py-8">No blogs available. Create your first blog!</p>
+          )}
+        </aside>
+
+        {/* RIGHT PANEL */}
+        <main className="col-span-2 bg-white rounded-2xl border overflow-hidden max-h-[calc(100vh-140px)] overflow-y-auto">
+          {selectedId ? (
+            <BlogDetail id={selectedId} />
+          ) : (
+            <div className="p-10">
+              <p className="text-gray-500 text-center py-12">Select a blog to view details</p>
+            </div>
+          )}
+        </main>
+
       </div>
 
-      <div className="col-span-2 p-6">
-        {selectedId && <BlogDetail id={selectedId} />}
-      </div>
+      <BlogForm 
+        open={isFormOpen} 
+        onOpenChange={setIsFormOpen}
+        onSuccess={handleBlogCreated}
+      />
     </div>
   );
 }
